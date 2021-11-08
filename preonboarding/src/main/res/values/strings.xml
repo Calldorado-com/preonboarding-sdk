@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preonb_notification_channel_name">Preonboarding</string>
+    <string name="preonb_notification_header">Update available</string>
+    <string name="preonb_notification_body">A new version is available on Google Play</string>
+</resources>
