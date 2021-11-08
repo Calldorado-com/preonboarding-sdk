@@ -72,7 +72,7 @@ class NotificationManager private constructor(val context: Context) {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
             } ?: context.packageManager.getLaunchIntentForPackage(context.packageName)
-
+            Log.d(TAG, "Intent to launch ${intent.toString()}")
             val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent as Intent, 0)
             return pendingIntent
         }
