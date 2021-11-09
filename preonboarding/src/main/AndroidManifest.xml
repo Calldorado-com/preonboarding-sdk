@@ -4,13 +4,21 @@
     package="com.calldorado.preonboarding">
 
     <application>
+        <activity
+            android:name=".UpdateActivity"
+            android:exported="false"
+            android:label="@string/title_activity_update"
+            android:theme="@style/Theme.PreOnboarding.NoActionBar" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
-            tools:node="merge"
             android:authorities="${applicationId}.androidx-startup"
-            android:exported="false">
-            <meta-data  android:name="com.calldorado.preonboarding.NotificationManagerInitializer"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="com.calldorado.preonboarding.startup.NotificationManagerInitializer"
                 android:value="androidx.startup" />
         </provider>
     </application>
+
 </manifest>

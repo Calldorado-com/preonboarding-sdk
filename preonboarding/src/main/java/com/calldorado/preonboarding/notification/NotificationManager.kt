@@ -1,14 +1,16 @@
-package com.calldorado.preonboarding
+package com.calldorado.preonboarding.notification
 
 import android.app.NotificationChannel
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
+import com.calldorado.preonboarding.R
+import com.calldorado.preonboarding.UpdateActivity
+import com.calldorado.preonboarding.Utils
+import timber.log.Timber
 
 class NotificationManager private constructor(val context: Context) {
     companion object {
@@ -19,7 +21,6 @@ class NotificationManager private constructor(val context: Context) {
         private lateinit var androidNotificationManagerCompat: NotificationManagerCompat
         private lateinit var androidNotificationManager: android.app.NotificationManager
 
-
         fun initialize(ctx: Context): NotificationManager {
             context = ctx.applicationContext
             notificationManager = NotificationManager(ctx)
@@ -27,10 +28,10 @@ class NotificationManager private constructor(val context: Context) {
         }
 
         fun getInstance(): NotificationManager {
-            if (!(::notificationManager.isInitialized)) {
-                throw Exception("Notification Manager not initialized.   You might forgot to call initialize(ctx: Context) ")
+            if (!(Companion::notificationManager.isInitialized)) {
+                throw Exception("Notification Manager not initialized. You might forgot to call initialize(ctx: Context) ")
             }
-            Log.d(TAG, "getInstance:  $notificationManager]")
+            Timber.d("getInstance:  $notificationManager]")
             androidNotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
             androidNotificationManagerCompat = NotificationManagerCompat.from(context)
             return notificationManager
@@ -63,16 +64,26 @@ class NotificationManager private constructor(val context: Context) {
         }
 
         private fun contentIntent(): PendingIntent{
-            var launcherClass = Utils.getMetadataLaunchClass(context)
-            val intent = launcherClass?.let {
+            val launcherClass = Utils.getMetadataLaunchClass(context)
+            /*val intent = launcherClass?.let {
                 Intent(
                     context,
                     Class.forName(it)
                     ).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 }
-            } ?: context.packageManager.getLaunchIntentForPackage(context.packageName)
-            Log.d(TAG, "Intent to launch ${intent.toString()}")
+            } ?: context.packageManager.getLaunchIntentForPackage(context.packageName)*/
+
+
+            val intent =
+                Intent(
+                    context,
+                    UpdateActivity::class.java
+                ).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+
+            Timber.d("Intent to launch ${intent.toString()}")
             val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent as Intent, 0)
             return pendingIntent
         }

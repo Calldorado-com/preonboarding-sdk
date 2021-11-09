@@ -2,6 +2,7 @@ package com.calldorado.preonboarding
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.google.android.play.core.appupdate.testing.FakeAppUpdateManager
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,5 +21,10 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.calldorado.preonboarding.test", appContext.packageName)
+    }
+
+    @Test
+    fun testUpdate(){
+        FakeAppUpdateManager(InstrumentationRegistry.getInstrumentation().targetContext).isConfirmationDialogVisible
     }
 }

@@ -1,4 +1,4 @@
-package com.calldorado.preonboarding
+package com.calldorado.preonboarding.startup
 
 import android.content.Context
 import androidx.startup.Initializer

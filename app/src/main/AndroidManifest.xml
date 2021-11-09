@@ -26,9 +26,10 @@
             </intent-filter>
         </activity>
 
-        <meta-data
+        <!-- Use this to launch a custom activity -->
+        <!--<meta-data
             android:name="com.calldorado.preonboarding.launch_class"
-            android:value="com.calldorado.preonboarding.Second" />
+            android:value="com.calldorado.preonboarding.Second" />-->
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.calldorado.preonboarding
 
+import com.google.android.play.core.appupdate.testing.FakeAppUpdateManager
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -14,4 +15,6 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+
 }
