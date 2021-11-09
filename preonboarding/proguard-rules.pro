@@ -23,4 +23,6 @@
 -keep interface com.calldorado.preonboarding.PreonboardingApi { *; }
 -keep class com.calldorado.preonboarding.PreonboardingApi { *; }
 -keep class com.calldorado.preonboarding.PreonboardingApi$* { *; }
--keep class com.calldorado.preonboarding.BuildConfig
+-keep class com.calldorado.preonboarding.BuildConfig* { *; }
+-keep class com.calldorado.preonboarding.BuildConfig { *; }
+-keep class kotlin.Unit { *; }
