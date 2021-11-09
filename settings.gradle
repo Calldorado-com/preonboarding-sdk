@@ -1,6 +1,13 @@
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        maven {
+            credentials {
+                username = 'developer'
+                password = 'FvCtf"Z8^pCTxY!n'
+            }
+            url 'https://maven.calldorado.com/nexus/content/repositories/snapshots/'
+        }
         google()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon

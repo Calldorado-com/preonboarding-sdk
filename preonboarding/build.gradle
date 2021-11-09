@@ -5,6 +5,7 @@ plugins {
 }
 
 ext.preonboarding_version = "0.1"
+
 //if (System.getenv('CI'))
     apply from: 'publishing.gradle'
 

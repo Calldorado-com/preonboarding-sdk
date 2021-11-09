@@ -20,4 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class com.calldorado.preonboarding.PreonboardingApi
+-keep interface com.calldorado.preonboarding.PreonboardingApi { *; }
+-keep class com.calldorado.preonboarding.PreonboardingApi { *; }
+-keep class com.calldorado.preonboarding.PreonboardingApi$* { *; }
 -keep class com.calldorado.preonboarding.BuildConfig
