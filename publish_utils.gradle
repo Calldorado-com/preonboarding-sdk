@@ -1,0 +1,237 @@
+def TAG = "Publish Utils"
+
+ext.TUTELA_GROUP = 'com.tutelatechnologies'
+ext.UMLAUT_GROUP = 'com.umlaut'
+
+ext.addPomDependencies = { def configurations, def dependenciesNode, def projectVersion ->
+    // List all "api" dependencies (for new Gradle) as "api" dependencies
+    configurations.api.getAllDependencies().each { dep ->
+        if (dep!=null) {
+            if (!System.getenv('CI'))
+                println "$TAG api dep name=${dep.name}, group=${dep.group}"
+//            if (!"com.calldorado".contains("${dep.group}")) {
+            if (dep.group != UMLAUT_GROUP && dep.group != TUTELA_GROUP )
+                addDependency(dependenciesNode, dep, "compile", projectVersion)
+//            }
+        }
+    }
+    //compile
+    // List all "implementation" dependencies (for new Gradle) as "runtime" dependencies
+    configurations.implementation.getAllDependencies().each { dep ->
+        if (dep!=null) {
+            if (!System.getenv('CI'))
+                println "$TAG implementation dep name=${dep.name}, group=${dep.group}"
+//            if (!"com.calldorado".contains("${dep.group}")) {
+            if (dep.group != UMLAUT_GROUP && dep.group != TUTELA_GROUP )
+                addDependency(dependenciesNode, dep, "runtime", projectVersion)
+//            }
+        }
+    }
+
+    // List all "compileOnly" dependencies (for new Gradle) as "compileOnly" dependencies
+    configurations.compileOnly.getAllDependencies().each { dep ->
+        if (dep.group != UMLAUT_GROUP && dep.group != TUTELA_GROUP )
+            addDependency(dependenciesNode, dep, "compileOnly", projectVersion)
+    }
+    // List all "runtimeOnly" dependencies (for new Gradle) as "runtimeOnly" dependencies
+    configurations.runtimeOnly.getAllDependencies().each { dep ->
+        if (dep.group != UMLAUT_GROUP && dep.group != TUTELA_GROUP )
+            addDependency(dependenciesNode, dep, "runtimeOnly", projectVersion)
+    }
+}
+
+ext.addSDKPomDependencies = { def configurations, def dependenciesNode, def variantName, def projectVersion ->
+    // List all "api" dependencies (for new Gradle) as "api" dependencies
+    configurations.each { configuration ->
+        def configName = configuration.name
+//        def shouldSkip = exclutionList.findAll{configName.toLowerCase().contains(it.toLowerCase())}.any{true}
+        if (!System.getenv('CI'))
+            println "$TAG SDK configuration ${configName} skipping this config to POM "
+        if (configName.equals("implementation")){
+            if (!System.getenv('CI'))
+                println "$TAG We got an implementation config ${configName}"
+            configuration.getAllDependencies().each { dep ->
+                if (dep!=null) {
+                    if (!System.getenv('CI'))
+                        println "$TAG implementation dep name=${dep.name}, group=${dep.group}"
+                    if (!dep.name.equals("sdk"))
+                        if (dep.group != UMLAUT_GROUP && dep.group != TUTELA_GROUP )
+                            addDependency(dependenciesNode, dep, "runtime", projectVersion)
+                }
+            }
+        } else if (configName.startsWith("$variantName")) {
+                if (!System.getenv('CI'))
+                    println "$TAG We got an $variantName implementation config ${configName}"
+                configuration.getAllDependencies().each { dep ->
+                    if (dep!=null) {
+                        if (!System.getenv('CI'))
+                            println "$TAG implementation dep name=${dep.name}, group=${dep.group}"
+                        if (!dep.name.equals("sdk"))
+                            if (dep.group != UMLAUT_GROUP && dep.group != TUTELA_GROUP )
+                                addDependency(dependenciesNode, dep, "runtime", projectVersion)
+                    }
+                }
+            } else if (configName.endsWith("Api")
+                    || configName.equals("api")){
+                configuration.getAllDependencies().each { dep ->
+                    if (dep!=null) {
+                        if (!System.getenv('CI'))
+                            println "$TAG api dep name=${dep.name}, group=${dep.group}"
+                        if (dep.group != UMLAUT_GROUP && dep.group != TUTELA_GROUP )
+                            addDependency(dependenciesNode, dep, "compile", projectVersion)
+                    }
+                }
+            }
+    }
+
+    // List all "compileOnly" dependencies (for new Gradle) as "compileOnly" dependencies
+    configurations.compileOnly.getAllDependencies().each { dep ->
+        if (dep.group != UMLAUT_GROUP && dep.group != TUTELA_GROUP )
+            addDependency(dependenciesNode, dep, "compileOnly", projectVersion)
+    }
+    // List all "runtimeOnly" dependencies (for new Gradle) as "runtimeOnly" dependencies
+    configurations.runtimeOnly.getAllDependencies().each { dep ->
+        if (dep.group != UMLAUT_GROUP && dep.group != TUTELA_GROUP )
+            addDependency(dependenciesNode, dep, "runtimeOnly", projectVersion)
+    }
+}
+
+ext.addDependency = {def dependenciesNode, Dependency dep, String scope, def projectVersion ->
+    if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified")
+        return // ignore invalid dependencies
+
+    def shouldSkip = false
+    def depGroupArtifact = "${dep.group}:${dep.name}"
+    if (hasNodeProperty(dependenciesNode, dep.group, dep.name)) {
+        shouldSkip = true
+    }
+    if (!shouldSkip) {
+        final dependencyNode = dependenciesNode.appendNode('dependency')
+
+        if (rootProject.name.equals(dep.group)){
+            if (hasNodeProperty(dependenciesNode, "com.calldorado", "base")){
+                println "$TAG node already exists!"
+            } else {
+                println "$TAG Group˝ is ${dep.group}"
+                dependencyNode.appendNode('groupId', 'com.calldorado')
+                dependencyNode.appendNode('artifactId', 'sdk-base')
+                dependencyNode.appendNode('version', "${projectVersion}-SNAPSHOT")
+                println "$TAG implementation RENAMED dep name=${dep.name}, group=${dep.group} rootname=$rootProject.name"
+            }
+
+        } else if (rootProject.name.equals(dep.group)){
+            if (hasNodeProperty(dependenciesNode, "com.calldorado", "ui")){
+                println "$TAG node already exists!"
+            } else {
+                println "$TAG Group is ${dep.group}"
+                dependencyNode.appendNode('groupId', 'com.calldorado')
+                dependencyNode.appendNode('artifactId', dep.name)
+                dependencyNode.appendNode('version', "${projectVersion}-SNAPSHOT")
+                println "$TAG implementation RENAMED dep name=${dep.name}, group=${dep.group} rootname=$rootProject.name"
+            }
+
+        } else if ("Caller SDK.ads".equals(dep.group)) {
+            if (dep.name.equals('mopub')){
+                if (hasNodeProperty(dependenciesNode, "com.calldorado.adproviders", "mopub")){
+                    println "$TAG mopub node already exists!"
+                } else {
+                    dependencyNode.appendNode('groupId', 'com.calldorado.adproviders')
+                    dependencyNode.appendNode('artifactId', dep.name)
+                    dependencyNode.appendNode('version', "${projectVersion}-SNAPSHOT")
+                    dependencyNode.appendNode('scope', scope)
+                }
+            } else if (dep.name.equals('facebook')){
+                if (hasNodeProperty(dependenciesNode, "com.calldorado.adproviders", "facebook")){
+                    println "$TAG facebook node already exists!"
+                } else {
+                    dependencyNode.appendNode('groupId', 'com.calldorado.adproviders')
+                    dependencyNode.appendNode('artifactId', dep.name)
+                    dependencyNode.appendNode('version', "${projectVersion}-SNAPSHOT")
+                    dependencyNode.appendNode('scope', scope)
+                }
+            } else if (dep.name.equals('dfp')){
+                if (hasNodeProperty(dependenciesNode, "com.calldorado.adproviders", "dfp")){
+                    println "$TAG dfp node already exists!"
+                } else {
+                    dependencyNode.appendNode('groupId', 'com.calldorado.adproviders')
+                    dependencyNode.appendNode('artifactId', dep.name)
+                    dependencyNode.appendNode('version', "${projectVersion}-SNAPSHOT")
+                    dependencyNode.appendNode('scope', scope)
+                }
+            } else if (dep.name.equals('base')){
+                if (hasNodeProperty(dependenciesNode, "com.calldorado.adproviders", "base")){
+                    println "$TAG base node already exists!"
+                } else {
+                    dependencyNode.appendNode('groupId', 'com.calldorado.adproviders')
+                    dependencyNode.appendNode('artifactId', dep.name)
+                    dependencyNode.appendNode('version', "${projectVersion}-SNAPSHOT")
+                    dependencyNode.appendNode('scope', scope)
+                }
+            } else if (dep.name.equals('adsapi')){
+                if (hasNodeProperty(dependenciesNode, "com.calldorado.adproviders", "adsapi")){
+                    println "$TAG base node already exists!"
+                } else {
+                    dependencyNode.appendNode('groupId', 'com.calldorado.adproviders')
+                    dependencyNode.appendNode('artifactId', dep.name)
+                    dependencyNode.appendNode('version', "${projectVersion}-SNAPSHOT")
+                    dependencyNode.appendNode('scope', scope)
+                }
+            }
+        } else if ("Caller SDK.thirdparties".equals(dep.group)) {
+            if (dep.name.equals('tutela')){
+                if (hasNodeProperty(dependenciesNode, "com.calldorado.thirdparties", "tutela")){
+                    println "$TAG tutela node already exists!"
+                } else {
+                    dependencyNode.appendNode('groupId', 'com.calldorado.thirdparties')
+                    dependencyNode.appendNode('artifactId', dep.name)
+                    dependencyNode.appendNode('version', "${projectVersion}-SNAPSHOT")
+                    dependencyNode.appendNode('scope', scope)
+                }
+            } else if (dep.name.equals('umlaut')){
+                if (hasNodeProperty(dependenciesNode, "com.calldorado.thirdparties", "umlaut")){
+                    println "$TAG umlaut node already exists!"
+                } else {
+                    dependencyNode.appendNode('groupId', 'com.calldorado.thirdparties')
+                    dependencyNode.appendNode('artifactId', dep.name)
+                    dependencyNode.appendNode('version', "${projectVersion}-SNAPSHOT")
+                    dependencyNode.appendNode('scope', scope)
+                }
+            }
+        } else {
+            dependencyNode.appendNode('groupId', dep.group)
+            dependencyNode.appendNode('version', dep.version)
+            dependencyNode.appendNode('artifactId', dep.name)
+            dependencyNode.appendNode('scope', scope)
+        }
+        if (dependencyNode.children().size() == 0){
+            dependenciesNode.remove(dependencyNode)
+        }
+
+        if (!dep.transitive) {
+            // If this dependency is transitive, we should force exclude all its dependencies them from the POM
+            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+            exclusionNode.appendNode('groupId', '*')
+            exclusionNode.appendNode('artifactId', '*')
+        } else if (!dep.properties.excludeRules.empty) {
+            // Otherwise add specified exclude rules
+            final exclusionNode = dependencyNode.appendNode('exclusions').appendNode('exclusion')
+            dep.properties.excludeRules.each { ExcludeRule rule ->
+                exclusionNode.appendNode('groupId', rule.group ?: '*')
+                exclusionNode.appendNode('artifactId', rule.module ?: '*')
+            }
+        }
+    }
+}
+
+ext.hasNodeProperty = { dependenciesNode, group, name ->
+    def hasNode = false
+    dependenciesNode.children().any{ child ->
+        def existingGroupArtifact = "${child.'groupId'.text()}:${child.'artifactId'.text()}"
+        def incomingGav = "$group:$name"
+        //println "$TAG incomingGav=$incomingGav existingGroupArtifact=$existingGroupArtifact"
+        if (incomingGav == existingGroupArtifact){
+            hasNode = true
+        }
+    }
+    hasNode
+}

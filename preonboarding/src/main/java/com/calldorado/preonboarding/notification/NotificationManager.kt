@@ -1,9 +1,12 @@
 package com.calldorado.preonboarding.notification
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -11,6 +14,7 @@ import com.calldorado.preonboarding.R
 import com.calldorado.preonboarding.UpdateActivity
 import com.calldorado.preonboarding.Utils
 import timber.log.Timber
+
 
 class NotificationManager private constructor(val context: Context) {
     companion object {
@@ -43,9 +47,18 @@ class NotificationManager private constructor(val context: Context) {
                 .setSmallIcon(R.drawable.baseline_update_24)
                 .setContentTitle(context.getString(R.string.preonb_notification_header))
                 .setContentText(context.getString(R.string.preonb_notification_body))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(contentIntent())
+                .setSound(getSoundUri())
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
             androidNotificationManagerCompat.notify(CHANNEL_ID, builder.build())
+            getSoundUri()
+        }
+
+        private fun getSoundUri(): Uri {
+            val soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            Timber.d("Sound URI $soundUri")
+            return soundUri
         }
 
         private fun createNotificationChannel() {
@@ -54,9 +67,11 @@ class NotificationManager private constructor(val context: Context) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val name = context.getString(R.string.preonb_notification_channel_name)
                 val descriptionText = context.getString(R.string.preonb_notification_body)
-                val importance = android.app.NotificationManager.IMPORTANCE_DEFAULT
+                val importance = android.app.NotificationManager.IMPORTANCE_HIGH
                 val channel = NotificationChannel("$CHANNEL_ID", name, importance).apply {
                     description = descriptionText
+                    lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+                    setShowBadge(true)
                 }
                 // Register the channel with the system
                 androidNotificationManager.createNotificationChannel(channel)

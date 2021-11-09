@@ -1,0 +1,60 @@
+import com.android.builder.core.BuilderConstants
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath gradleApi()
+        classpath 'org.codehaus.groovy:groovy-all:2.4.15'
+        classpath "com.android.tools.build:gradle:$agp_version"
+    }
+}
+
+apply from: '../publish_utils.gradle'
+
+publishing {
+    repositories {
+        maven {
+            credentials {
+                username = (System.getenv('mavenUser') != null) ? System.getenv('mavenUser') : mavenUser
+                password = (System.getenv('mavenPassword') != null) ? System.getenv('mavenPassword') : mavenPassword
+            }
+            url 'https://maven.calldorado.com/nexus/content/repositories/snapshots'
+        }
+    }
+    publications {
+        android.libraryVariants.all { variant ->
+            def build = variant.buildType.name
+            if (build == BuilderConstants.DEBUG) {
+                println "Not publishing debug variant"
+                return
+            }
+            println "Preonboarding variant is $variant.name"
+            "${variant.name}"(MavenPublication) {
+                pom {
+                    name = 'Pre-onboarding Lib'
+                    description = 'To help publishers onboard users on CDO update'
+                    url = 'https://www.calldorado.com/'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    packaging = BuilderConstants.EXT_LIB_ARCHIVE
+
+                    withXml {
+                        final dependenciesNode = asNode().appendNode('dependencies')
+                        addPomDependencies(configurations, dependenciesNode, "$preonboarding_version")
+                    }
+                }
+                groupId = 'com.calldorado'
+                artifactId = 'pre-onboarding'
+                version = "${preonboarding_version}-SNAPSHOT"
+                artifact "${project.buildDir}/outputs/aar/preonboarding-release.aar"
+            }
+        }
+    }
+}

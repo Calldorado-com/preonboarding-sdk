@@ -9,8 +9,8 @@ class PreonboardingImpl {
         NotificationManager.displayUpdateNotification(NotificationManager.getInstance())
     }
 
-    fun updateImmediately(activity: Activity) {
-        UpdateManager.updateImmediately(UpdateManager.getInstance(activity))
+    fun updateImmediately(activity: Activity, statusOnUpdate : (Any) -> Unit) {
+        UpdateManager.updateImmediately(UpdateManager.getInstance(activity), statusOnUpdate)
     }
 
     fun updateFlexibly() {

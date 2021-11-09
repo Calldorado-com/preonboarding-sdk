@@ -7,6 +7,7 @@ import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import timber.log.Timber
+import java.lang.Exception
 
 class UpdateManager private constructor(activity: Activity) {
 
@@ -21,7 +22,7 @@ class UpdateManager private constructor(activity: Activity) {
             return instance
         }
 
-        fun updateImmediately(instance: UpdateManager) {
+        fun updateImmediately(instance: UpdateManager, statusOnUpdate : (Any) -> Unit) {
             Timber.d("Running immediate update")
             val UPDATE_TYPE = AppUpdateType.IMMEDIATE
             val appUpdateManager = AppUpdateManagerFactory.create(activity1)
@@ -32,6 +33,7 @@ class UpdateManager private constructor(activity: Activity) {
             // Checks that the platform will allow the specified type of update.
             appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
                 Timber.d("Update success ${appUpdateInfo.availableVersionCode()}")
+                statusOnUpdate("Update succeeded:\n${appUpdateInfo.toString()}")
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                     && appUpdateInfo.isUpdateTypeAllowed(UPDATE_TYPE)
                 ) {
@@ -45,11 +47,18 @@ class UpdateManager private constructor(activity: Activity) {
             }
             appUpdateInfoTask.addOnFailureListener { appUpdateInfo ->
                 Timber.d("Update failed ${appUpdateInfo.toString()}")
+                statusOnUpdate("Update failed:\n${appUpdateInfo.toString()}")
             }
 
             appUpdateInfoTask.addOnCompleteListener{ appUpdateInfo ->
                 Timber.d("Update completed ${appUpdateInfo.toString()}")
+                /*try {
+                appUpdateInfo.result //This throws an exception
+                    statusOnUpdate("isComplete ${appUpdateInfo.result}") //${appUpdateInfo.result} //${appUpdateInfo.isSuccessful} isComplete
 
+                } catch (e: Exception){
+                    e.printStackTrace()
+                }*/
             }
         }
 

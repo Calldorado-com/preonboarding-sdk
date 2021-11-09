@@ -5,6 +5,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
 import com.calldorado.preonboarding.databinding.ActivityUpdateBinding
+import com.google.android.play.core.appupdate.AppUpdateInfo
 
 class UpdateActivity : AppCompatActivity() {
 
@@ -19,7 +20,12 @@ class UpdateActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        PreonboardingApi.updateImmediately(this)
+        PreonboardingApi.updateImmediately(this) { statusOnUpdate ->
+            binding.displayTxt.text = statusOnUpdate.toString()
+        }
+        binding.buttonExit.setOnClickListener({
+            finish()
+        })
     }
 
 }
