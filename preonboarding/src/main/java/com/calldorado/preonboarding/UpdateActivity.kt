@@ -63,16 +63,16 @@ class UpdateActivity : AppCompatActivity() {
 
                     //The user has denied or canceled the update.
                     RESULT_CANCELED -> {
-                        //TODO set notification timer as spec'ed
+                        //TODO schedule notification as spec'ed
                     }
 
                     //Some other error prevented either the user from providing consent or the update from proceeding.
                     RESULT_IN_APP_UPDATE_FAILED -> {
-                        //TODO set notification timer as spec'ed
+                        //TODO schedule notification as spec'ed
                     }
 
                     else -> {
-                        //TODO set notification timer as spec'ed
+                        //TODO seschedulet notification as spec'ed
                     }
                 }
             }
