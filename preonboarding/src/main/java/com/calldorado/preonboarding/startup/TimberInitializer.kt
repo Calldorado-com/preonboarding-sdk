@@ -14,6 +14,6 @@ class TimberInitializer : Initializer<List<Timber.Tree>> {
         return Timber.forest()
     }
     override fun dependencies(): List<Class<out Initializer<*>>> {
-        return emptyList() // No dependencies on other libraries.
+        return listOf(WorkManagerInitializer::class.java)
     }
 }

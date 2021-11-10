@@ -13,7 +13,6 @@ class WorkManagerInitializer : Initializer<WorkManager> {
         return WorkManager.getInstance(context)
     }
     override fun dependencies(): List<Class<out Initializer<*>>> {
-        // No dependencies on other libraries.
-        return emptyList()
+        return emptyList() // No dependencies on other libraries.
     }
 }
