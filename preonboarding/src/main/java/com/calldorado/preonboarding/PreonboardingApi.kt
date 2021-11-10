@@ -16,4 +16,8 @@ object PreonboardingApi {
     fun updateFlexibly() {
         PreonboardingImpl().updateFlexibly()
     }
+
+    fun dismissNotification() {
+        PreonboardingImpl().dismissNotification()
+    }
 }

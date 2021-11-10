@@ -6,7 +6,7 @@ import com.calldorado.preonboarding.update.UpdateManager
 
 class PreonboardingImpl {
     fun showNotification(){
-        NotificationManager.displayUpdateNotification(NotificationManager.getInstance())
+        NotificationManager.getInstance().displayUpdateNotification()
     }
 
     fun updateImmediately(activity: Activity, statusOnUpdate : (Any) -> Unit) {
@@ -17,4 +17,7 @@ class PreonboardingImpl {
         TODO("Not yet implemented")
     }
 
+    fun dismissNotification(){
+        NotificationManager.getInstance().dismissNotification()
+    }
 }

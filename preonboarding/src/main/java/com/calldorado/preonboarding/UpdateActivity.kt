@@ -2,14 +2,17 @@ package com.calldorado.preonboarding
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
 import com.calldorado.preonboarding.databinding.ActivityUpdateBinding
-import com.google.android.play.core.appupdate.AppUpdateInfo
+import com.calldorado.preonboarding.notification.NotificationManager
 import com.google.android.play.core.install.model.ActivityResult.RESULT_IN_APP_UPDATE_FAILED
+import timber.log.Timber
 
 class UpdateActivity : AppCompatActivity() {
+    companion object{
+        const val NOTIFICATION_REQ_CODE = 2800
+    }
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityUpdateBinding
@@ -28,10 +31,24 @@ class UpdateActivity : AppCompatActivity() {
         binding.buttonExit.setOnClickListener {
             finish()
         }
+        Timber.d("Started update activity")
+
+        PreonboardingApi.dismissNotification()
+        Timber.d("Has calldorado class: ${Utils.isCalldoradoInstalled()}")
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        Timber.d("onNewIntent")
+        if (intent?.action.equals(NotificationManager.NOTIFICATION_ACTION)){
+            Timber.d("Notification action received")
+            PreonboardingApi.dismissNotification()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Timber.d("req: $requestCode res: $resultCode")
         when (requestCode) {
             PreonboardingApi.UPDATE_REQUEST_CODE -> {
                 when (resultCode){
@@ -59,6 +76,8 @@ class UpdateActivity : AppCompatActivity() {
                     }
                 }
             }
+
+            NOTIFICATION_REQ_CODE -> PreonboardingApi.dismissNotification()
         }
     }
 }

@@ -8,6 +8,9 @@
             android:name=".UpdateActivity"
             android:exported="false"
             android:label="@string/title_activity_update"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
             android:theme="@style/Theme.PreOnboarding.NoActionBar" />
 
         <provider
