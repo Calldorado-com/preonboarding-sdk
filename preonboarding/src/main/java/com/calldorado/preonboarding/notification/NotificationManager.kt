@@ -34,9 +34,6 @@ class NotificationManager private constructor(val context: Context) {
         fun initialize(ctx: Context): NotificationManager {
             context = ctx.applicationContext
             notificationManager = NotificationManager(ctx)
-            if (!Utils.isCalldoradoInstalled()) {
-                getInstance().displayUpdateNotification()
-            }
             return notificationManager
         }
 

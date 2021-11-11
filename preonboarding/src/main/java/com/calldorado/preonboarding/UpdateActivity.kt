@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
 import com.calldorado.preonboarding.databinding.ActivityUpdateBinding
 import com.calldorado.preonboarding.notification.NotificationManager
+import com.calldorado.preonboarding.update.UpdateManager
 import com.google.android.play.core.install.model.ActivityResult.RESULT_IN_APP_UPDATE_FAILED
 import timber.log.Timber
 
@@ -63,16 +64,16 @@ class UpdateActivity : AppCompatActivity() {
 
                     //The user has denied or canceled the update.
                     RESULT_CANCELED -> {
-                        //TODO schedule notification as spec'ed
+                        //TODO reschedule notification as spec'ed
                     }
 
                     //Some other error prevented either the user from providing consent or the update from proceeding.
                     RESULT_IN_APP_UPDATE_FAILED -> {
-                        //TODO schedule notification as spec'ed
+                        //TODO reschedule notification as spec'ed
                     }
 
                     else -> {
-                        //TODO seschedulet notification as spec'ed
+                        //TODO reschedule notification as spec'ed
                     }
                 }
             }

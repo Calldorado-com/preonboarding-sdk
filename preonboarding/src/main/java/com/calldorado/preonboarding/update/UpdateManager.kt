@@ -21,6 +21,14 @@ class UpdateManager private constructor(activity: Activity) {
             UpdateManager.activity1 = activity
             return instance
         }
+
+        fun isNewVersionAvailable(context: Context, newVersionAvailable: (Boolean) -> Unit) {
+            val appUpdateManager = AppUpdateManagerFactory.create(context)
+            val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+            appUpdateInfoTask.addOnCompleteListener {  appUpdateInfoTask ->
+                newVersionAvailable (appUpdateInfoTask.result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE)
+            }
+        }
     }
 
     fun updateImmediately(statusOnUpdate : (Any) -> Unit) {
@@ -52,16 +60,6 @@ class UpdateManager private constructor(activity: Activity) {
             statusOnUpdate("Update failed:\n${appUpdateInfo.toString()}")
         }
 
-        appUpdateInfoTask.addOnCompleteListener{ appUpdateInfo ->
-            Timber.d("Update completed ${appUpdateInfo.toString()}")
-            /*try {
-            appUpdateInfo.result //This throws an exception
-                statusOnUpdate("isComplete ${appUpdateInfo.result}") //${appUpdateInfo.result} //${appUpdateInfo.isSuccessful} isComplete
-
-            } catch (e: Exception){
-                e.printStackTrace()
-            }*/
-        }
     }
 
     fun updateFlex(instance: UpdateManager) {
@@ -75,4 +73,5 @@ class UpdateManager private constructor(activity: Activity) {
             }
         }
     }
+
 }
