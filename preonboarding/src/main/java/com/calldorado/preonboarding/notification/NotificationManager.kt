@@ -19,7 +19,6 @@ import com.calldorado.preonboarding.UpdateActivity.Companion.NOTIFICATION_REQ_CO
 import com.calldorado.preonboarding.Utils
 import timber.log.Timber
 
-
 class NotificationManager private constructor(val context: Context) {
 
     companion object {

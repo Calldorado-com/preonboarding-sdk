@@ -26,7 +26,12 @@ class UpdateManager private constructor(activity: Activity) {
             val appUpdateManager = AppUpdateManagerFactory.create(context)
             val appUpdateInfoTask = appUpdateManager.appUpdateInfo
             appUpdateInfoTask.addOnCompleteListener {  appUpdateInfoTask ->
-                newVersionAvailable (appUpdateInfoTask.result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE)
+                try {
+                    newVersionAvailable (appUpdateInfoTask.result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE)
+                } catch (e: Exception){
+                    newVersionAvailable(false)
+                    e.printStackTrace()
+                }
             }
         }
     }
