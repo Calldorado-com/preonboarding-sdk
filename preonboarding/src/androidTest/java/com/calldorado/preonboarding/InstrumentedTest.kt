@@ -69,7 +69,7 @@ class InstrumentedTest {
         val periodicNotificationWorkRequest =
             PeriodicWorkRequestBuilder<NotificationWorker>(24, TimeUnit.HOURS)
                 .addTag(NotificationWorker.NOTIFICATION_WORK_TAG)
-                .setInitialDelay(Utils.getMinutesUntilHour(15), TimeUnit.MINUTES)
+                .setInitialDelay(Utils.getMinutesUntilHour(instrumentationContext, 15), TimeUnit.MINUTES)
                 .build()
 
         Timber.d("ID is ${periodicNotificationWorkRequest.id}")

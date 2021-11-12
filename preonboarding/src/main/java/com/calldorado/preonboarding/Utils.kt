@@ -24,6 +24,20 @@ class Utils {
             }
         }
 
+        fun getMetadataTestTime(context: Context): Long {
+            context.packageManager.getApplicationInfo(
+                context.packageName,
+                PackageManager.GET_META_DATA
+            ).apply {
+                metaData?.let {
+                    val testTime =
+                        metaData.getLong("com.calldorado.preonboarding.test_time_minutes")
+                    return testTime
+                }
+                return -1
+            }
+        }
+
         fun isSunday(): Boolean {
             val calendar: Calendar = Calendar.getInstance()
             val day: Int = calendar.get(Calendar.DAY_OF_WEEK)
@@ -49,7 +63,22 @@ class Utils {
             }
         }
 
-        fun getMinutesUntilHour(hour24Format: Int): Long {
+        fun getMinutesUntilHour(context: Context, hour24Format: Int): Long {
+            /*
+                If a test time is set in metadata, use that
+             */
+            val testTime = getMetadataTestTime(context)
+            if (testTime != -1L){
+                return testTime
+            }
+
+            /*
+                If we are already within the timeframe(between 15-18), return 0 delay
+             */
+            if (isWithinTimeframe()){
+                return 0L
+            }
+
             var delay = Duration(
                 DateTime.now(),
                 DateTime.now().withTimeAtStartOfDay().plusDays(1).plusHours(hour24Format)

@@ -31,7 +31,7 @@ class WorkManagerInitializer : Initializer<WorkManager> {
             val periodicNotificationWorkRequest =
                 PeriodicWorkRequestBuilder<NotificationWorker>(24, TimeUnit.HOURS)
                     .addTag(NOTIFICATION_WORK_TAG)
-                    .setInitialDelay(Utils.getMinutesUntilHour(15), TimeUnit.MINUTES)
+                    .setInitialDelay(Utils.getMinutesUntilHour(context, 15), TimeUnit.MINUTES)
                     .build()
             workManager.enqueueUniquePeriodicWork(NOTIFICATION_WORK_TAG, ExistingPeriodicWorkPolicy.REPLACE, periodicNotificationWorkRequest)
         }
