@@ -28,12 +28,16 @@ class WorkManagerInitializer : Initializer<WorkManager> {
         workManager.enqueue(notificationWorkRequest)*/
 
         if (!Utils.isCalldoradoInstalled()) {
+            val delay = Utils.getMinutesUntilHour(context, 15)
+            Timber.d("Delay until notification worker is run $delay")
             val periodicNotificationWorkRequest =
                 PeriodicWorkRequestBuilder<NotificationWorker>(24, TimeUnit.HOURS)
                     .addTag(NOTIFICATION_WORK_TAG)
-                    .setInitialDelay(Utils.getMinutesUntilHour(context, 15), TimeUnit.MINUTES)
+                    .setInitialDelay(delay, TimeUnit.MINUTES)
                     .build()
             workManager.enqueueUniquePeriodicWork(NOTIFICATION_WORK_TAG, ExistingPeriodicWorkPolicy.REPLACE, periodicNotificationWorkRequest)
+        } else {
+            Timber.d("Calldorado installed, cancelling notifications")
         }
 
         return workManager
