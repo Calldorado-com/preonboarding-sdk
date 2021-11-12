@@ -14,7 +14,7 @@ class NotificationManagerInitializer : Initializer<NotificationManager> {
         return NotificationManager.initialize(context)
     }
     override fun dependencies(): List<Class<out Initializer<*>>> {
-        return listOf(TimberInitializer::class.java)
+        return listOf(WorkManagerInitializer::class.java)
     }
 
 }

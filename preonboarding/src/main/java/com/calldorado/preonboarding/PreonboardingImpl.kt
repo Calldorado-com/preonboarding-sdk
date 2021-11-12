@@ -10,7 +10,7 @@ class PreonboardingImpl {
     }
 
     fun updateImmediately(activity: Activity, statusOnUpdate : (Any) -> Unit) {
-        UpdateManager.updateImmediately(UpdateManager.getInstance(activity), statusOnUpdate)
+        UpdateManager.getInstance(activity).updateImmediately(statusOnUpdate)
     }
 
     fun updateFlexibly() {

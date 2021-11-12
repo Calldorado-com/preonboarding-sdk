@@ -21,7 +21,11 @@ publishing {
                 username = (System.getenv('mavenUser') != null) ? System.getenv('mavenUser') : mavenUser
                 password = (System.getenv('mavenPassword') != null) ? System.getenv('mavenPassword') : mavenPassword
             }
-            url 'https://maven.calldorado.com/nexus/content/repositories/snapshots'
+            if (preonboarding_version.contains("SNAPSHOT")){
+                url 'https://maven.calldorado.com/nexus/content/repositories/snapshots'
+            } else {
+                url 'https://maven.calldorado.com/nexus/content/repositories/releases'
+            }
         }
     }
     publications {
@@ -52,7 +56,7 @@ publishing {
                 }
                 groupId = 'com.calldorado'
                 artifactId = 'pre-onboarding'
-                version = "${preonboarding_version}-SNAPSHOT"
+                version = "$preonboarding_version"
                 artifact "${project.buildDir}/outputs/aar/preonboarding-release.aar"
             }
         }
