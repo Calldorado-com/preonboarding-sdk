@@ -1,4 +1,4 @@
-package com.calldorado.preonboarding
+package com.calldorado.app
 
 import org.junit.Test
 

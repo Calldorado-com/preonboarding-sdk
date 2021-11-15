@@ -1,4 +1,4 @@
-package com.calldorado.preonboarding
+package com.calldorado.app
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.calldorado.preonboarding.databinding.FragmentSecond2Binding
+import com.calldorado.app.databinding.FragmentSecond2Binding
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.

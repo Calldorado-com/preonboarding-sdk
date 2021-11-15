@@ -1,4 +1,4 @@
-package com.calldorado.preonboarding
+package com.calldorado.app
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -7,7 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.calldorado.preonboarding.databinding.ActivitySecondBinding
+import com.calldorado.app.databinding.ActivitySecondBinding
 
 class Second : AppCompatActivity() {
 

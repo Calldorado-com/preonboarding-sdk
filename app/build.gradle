@@ -7,19 +7,40 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "com.calldorado.preonboarding"
+        applicationId "com.calldorado.app"
         minSdk 19
         targetSdk 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    def dimen = "version"
+    flavorDimensions dimen
+
+    productFlavors {
+        create("normal"){
+            dimension = dimen
+        }
+        create("quotes"){
+            applicationId "com.bestinspirational.quotes"
+            dimension = dimen
+//            applicationIdSuffix = ".impersonation"
+            versionNameSuffix = "-impersonation"
+//            minSdkVersion 19
+//            targetSdkVersion 30
+//            versionCode 139
+//            versionName "2.139"
+
         }
     }
 
@@ -50,4 +71,7 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    def multidex_version = "2.0.1"
+    implementation("androidx.multidex:multidex:$multidex_version")
 }
