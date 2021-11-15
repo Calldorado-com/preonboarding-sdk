@@ -3,6 +3,7 @@ package com.calldorado.preonboarding.update
 import android.app.Activity
 import android.content.Context
 import com.calldorado.preonboarding.PreonboardingApi.UPDATE_REQUEST_CODE
+import com.calldorado.preonboarding.Utils
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
@@ -27,7 +28,8 @@ class UpdateManager private constructor(activity: Activity) {
             val appUpdateInfoTask = appUpdateManager.appUpdateInfo
             appUpdateInfoTask.addOnCompleteListener {  appUpdateInfoTask ->
                 try {
-                    newVersionAvailable (appUpdateInfoTask.result.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE)
+                    val updateStatus = appUpdateInfoTask.result.updateAvailability()
+                    newVersionAvailable (updateStatus == UpdateAvailability.UPDATE_AVAILABLE)
                 } catch (e: Exception){
                     newVersionAvailable(false)
                     e.printStackTrace()
@@ -46,8 +48,10 @@ class UpdateManager private constructor(activity: Activity) {
 
         // Checks that the platform will allow the specified type of update.
         appUpdateInfoTask.addOnSuccessListener { appUpdateInfo ->
-            Timber.d("Update success ${appUpdateInfo.availableVersionCode()}")
-            statusOnUpdate("Update succeeded:\n${appUpdateInfo.toString()}")
+            val statusString = "Update availableVersionCode = ${appUpdateInfo.availableVersionCode()}\n" +
+                    "updateAvailability = ${Utils.getUpdateAvailabilityStatus(appUpdateInfo.updateAvailability())}"
+            Timber.d(statusString)
+            statusOnUpdate("Status:\n${statusString}")
             if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
                 && appUpdateInfo.isUpdateTypeAllowed(UPDATE_TYPE)
             ) {

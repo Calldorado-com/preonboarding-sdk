@@ -27,6 +27,9 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="com.calldorado.preonboarding.test_time_minutes"
+            android:value="1" />
         <!-- Use this to launch a custom activity -->
         <!--<meta-data
             android:name="com.calldorado.preonboarding.launch_class"

@@ -17,10 +17,29 @@ android {
         multiDexEnabled = true
     }
 
+    signingConfigs {
+        release {
+            storeFile file("key${File.separator}release${File.separator}callquotes")
+            storePassword "35203520"
+            keyAlias "key0"
+            keyPassword "35203520"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            def runTasks = gradle.startParameter.taskNames.toString().toLowerCase()
+            println "Task is $runTasks"
+//            if (runTasks.contains("quotes")) {
+                signingConfig signingConfigs.release
+//            }
+        }
+        debug {
+            minifyEnabled false
+//            signingConfig signingConfigs.releaseLocal
         }
     }
 

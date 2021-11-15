@@ -30,9 +30,13 @@ class Utils {
                 PackageManager.GET_META_DATA
             ).apply {
                 metaData?.let {
-                    val testTime =
-                        metaData.getLong("com.calldorado.preonboarding.test_time_minutes")
-                    return testTime
+                    try {
+                        val testTime =
+                            metaData.get("com.calldorado.preonboarding.test_time_minutes")
+                        return "$testTime".toLong()
+                    } catch (e: Exception){
+                        return -1
+                    }
                 }
                 return -1
             }
@@ -92,6 +96,16 @@ class Utils {
             }
             Timber.d("Delay in minutes are $delay")
             return delay
+        }
+
+        fun getUpdateAvailabilityStatus(availibility: Int): String {
+            when (availibility){
+//                0 -> return "UNKNOWN"
+                1 -> return "UPDATE_NOT_AVAILABLE"
+                2 -> return "UPDATE_AVAILABLE"
+                3 -> return "DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS"
+                else -> return "UNKNOWN"
+            }
         }
     }
 }
