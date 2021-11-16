@@ -26,7 +26,7 @@ class NotificationWorker(val context: Context, workerParams: WorkerParameters): 
             val job = async {
                 try {
                     UpdateManager.isNewVersionAvailable(context) { newVersion ->
-                        Timber.d("Done with async")
+                        Timber.d("Done with async. Has new version = $newVersion, has Calldorado = ${Utils.isCalldoradoInstalled()}")
                         if (newVersion && !Utils.isCalldoradoInstalled()) {
                             NotificationManager.getInstance().displayUpdateNotification()
                         } else {

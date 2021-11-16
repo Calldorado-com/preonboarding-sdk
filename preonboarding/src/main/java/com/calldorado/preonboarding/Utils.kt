@@ -52,14 +52,23 @@ class Utils {
             }
         }
 
-        fun isWithinTimeframe(): Boolean {
+        fun isWithinTimeframe(context: Context): Boolean {
+            //Bypass when in Debug mode
+            if (BuildConfig.DEBUG)
+                return true
+
+            //Bypass when test metadata is set
+            val isTestTimeSet = (Utils.getMetadataTestTime(context) != -1L)
+            if (isTestTimeSet)
+                return true
+
             val currentTime = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
             return currentTime in 15..18
         }
 
         fun isCalldoradoInstalled(): Boolean {
             try {
-                var calldoradoClassObjectName = if (BuildConfig.DEBUG) "com.calldorado.preonboarding.Calldorado" else "com.calldorado.Calldorado"
+                var calldoradoClassObjectName = if (BuildConfig.DEBUG) "com.calldorado.app.Calldorado" else "com.calldorado.Calldorado"
                 val calldoradoClassObject = Class.forName(calldoradoClassObjectName).kotlin.objectInstance
                 return calldoradoClassObject != null
             } catch (e: Exception){
@@ -79,7 +88,7 @@ class Utils {
             /*
                 If we are already within the timeframe(between 15-18), return 0 delay
              */
-            if (isWithinTimeframe()){
+            if (isWithinTimeframe(context)){
                 return 0L
             }
 

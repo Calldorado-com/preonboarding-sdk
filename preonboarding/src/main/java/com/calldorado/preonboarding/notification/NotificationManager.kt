@@ -3,7 +3,6 @@ package com.calldorado.preonboarding.notification
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.PendingIntent
-import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
@@ -52,7 +51,8 @@ class NotificationManager private constructor(val context: Context) {
             Timber.d("It's sunday! Relax")
             return
         }
-        if (!Utils.isWithinTimeframe() && !BuildConfig.DEBUG) {
+
+        if (!Utils.isWithinTimeframe(context)) {
             Timber.d("Not the right time to display notifications (only between 15-18)")
             return
         }
