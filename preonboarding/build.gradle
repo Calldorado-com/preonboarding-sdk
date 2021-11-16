@@ -4,10 +4,9 @@ plugins {
     id 'maven-publish'
 }
 
-ext.preonboarding_version = "0.1-SNAPSHOT"
-
 if (System.getenv('CI'))
     apply from: 'publishing.gradle'
+apply from: '../sdk_properties.gradle'
 
 android {
     compileSdk 31

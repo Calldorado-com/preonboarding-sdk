@@ -1,3 +1,7 @@
+plugins {
+    id "com.gradle.enterprise" version "3.7.1"
+}
+apply from: 'sdk_properties.gradle'
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -9,10 +13,21 @@ dependencyResolutionManagement {
             url 'https://maven.calldorado.com/nexus/content/repositories/snapshots/'
         }
         google()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
+    }
+
+    include ':preonboarding'
+    gradleEnterprise {
+        buildScan {
+            termsOfServiceUrl = "https://gradle.com/terms-of-service"
+            termsOfServiceAgree = "yes"
+            value "Version number", preonboarding_version
+        }
     }
 }
 rootProject.name = "Pre Onboarding"
 include ':app'
-include ':preonboarding'

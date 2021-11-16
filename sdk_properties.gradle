@@ -1,0 +1,8 @@
+/*
+    General high-level properties
+ */
+
+ext {
+    //Remove -SNAPSHOT to publish to release
+    ext.preonboarding_version = "0.1-SNAPSHOT"
+}
