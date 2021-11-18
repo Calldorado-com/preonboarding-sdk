@@ -1,2 +1,5 @@
 /build
-/key
+/key/debug/debug.keystore
+/key/debug/readme.txt
+/key/release/callquotes
+/key/release/details.txt
