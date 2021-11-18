@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preonb_notification_body">更新此应用以享受最新,最佳的版本以及出色的新功能。</string>
+    <string name="preonb_notification_header">有新的更新可用。</string>
+</resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preonb_notification_body">更新 app 以享受最新,最出色的版本,還有超讚的新功能。</string>
+    <string name="preonb_notification_header">可使用的最新更新。</string>
+</resources>

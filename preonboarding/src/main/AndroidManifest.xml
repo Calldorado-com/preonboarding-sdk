@@ -7,7 +7,7 @@
         <activity
             android:name=".UpdateActivity"
             android:exported="false"
-            android:label="@string/title_activity_update"
+            android:label="@string/preonb_title_activity_update"
             android:launchMode="singleTask"
             android:taskAffinity=""
             android:excludeFromRecents="true"

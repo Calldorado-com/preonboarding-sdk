@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preonb_notification_header">최신 업데이트가 가능합니다.</string>
+    <string name="preonb_notification_body">앱을 업데이트하여 최신 그리고 최고의 버전을 즐기고 환상적인 새 기능도 체험하세요.</string>
+</resources>

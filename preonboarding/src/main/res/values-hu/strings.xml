@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preonb_notification_header">Új frissítés elérhető.</string>
+    <string name="preonb_notification_body">Frissítse ezt az alkalmazást, hogy élvezhesse a legfrissebb és legjobb verziót, valamint a fantasztikus új funkciókat.</string>
+</resources>

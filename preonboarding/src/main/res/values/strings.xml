@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="preonb_notification_channel_name">Preonboarding</string>
-    <string name="preonb_notification_header">Update available</string>
-    <string name="preonb_notification_body">A new version is available on Google Play</string>
-    <string name="title_activity_update">UpdateActivity</string>
+    <string name="preonb_notification_channel_name" translatable="false">Preonboarding</string>
+    <string name="preonb_title_activity_update">UpdateActivity</string>
+    <string name="preonb_notification_header">New update available.</string>
+    <string name="preonb_notification_body">Update this app to enjoy the latest and best version, and fantastic new features.</string>
 </resources>
