@@ -11,5 +11,6 @@
     <string name="hello_first_fragment2">NOTIFICATION activity</string>
     <string name="hello_second_fragment">Hello apps second fragment. Arg: %1$s</string>
     <string name="title_activity_second">Second</string>
+    <string name="title_activity_app_update">AppUpdateActivity</string>
     <!--    <string name="preonb_notification_header">NOTHING! available</string>-->
 </resources>

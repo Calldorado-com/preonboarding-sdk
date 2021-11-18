@@ -2,6 +2,7 @@ package com.calldorado.preonboarding
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import org.joda.time.DateTime
 import org.joda.time.Duration
 import timber.log.Timber
@@ -36,6 +37,22 @@ class Utils {
                         return "$testTime".toLong()
                     } catch (e: Exception){
                         return -1
+                    }
+                }
+                return -1
+            }
+        }
+
+        fun getMetadataValue(context: Context, key: String): Any? {
+            context.packageManager.getApplicationInfo(
+                context.packageName,
+                PackageManager.GET_META_DATA
+            ).apply {
+                metaData?.let {
+                    try {
+                        return metaData.get(key)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
                 }
                 return -1
@@ -115,6 +132,31 @@ class Utils {
                 3 -> return "DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS"
                 else -> return "UNKNOWN"
             }
+        }
+
+        fun getAppIcon(context: Context): Int {
+            try {
+                context.resources.getIdentifier(getMetadataValue(context, "com.calldorado.preonboarding.notification_icon_res_name") as String,
+                    "drawable",
+                    context.packageName).let {
+                    Timber.d("Icon is $it")
+                    if (it != 0)
+                        return it
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+           return R.drawable.baseline_update_24
+        }
+
+        fun getAppIconLarge(context: Context): Bitmap? {
+            val iconDrawable = context.packageManager.getApplicationIcon(context.packageName)
+
+            return Bitmap.createBitmap(
+                iconDrawable.intrinsicWidth,
+                iconDrawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
         }
     }
 }

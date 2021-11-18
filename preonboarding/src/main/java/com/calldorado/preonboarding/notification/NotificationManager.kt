@@ -58,10 +58,13 @@ class NotificationManager private constructor(val context: Context) {
         }
 
         createNotificationChannel()
-        var builder = NotificationCompat.Builder(context, "$CHANNEL_ID")
-            .setSmallIcon(R.drawable.baseline_update_24)
+        val builder = NotificationCompat.Builder(context, "$CHANNEL_ID")
+            .setSmallIcon(Utils.getAppIcon(context)) //Utils.getAppIcon(context)
+//            .setLargeIcon(Utils.getAppIconLarge(context))
             .setContentTitle(context.getString(R.string.preonb_notification_header))
             .setContentText(context.getString(R.string.preonb_notification_body))
+            .setStyle(NotificationCompat.BigTextStyle()
+                .bigText(context.getString(R.string.preonb_notification_body)))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(contentIntent())
             .setSound(getSoundUri())
@@ -95,20 +98,15 @@ class NotificationManager private constructor(val context: Context) {
 
     private fun contentIntent(): PendingIntent{
         val launcherClass = Utils.getMetadataLaunchClass(context)
-        /*val intent = launcherClass?.let {
-            Intent(
-                context,
-                Class.forName(it)
-                ).apply {
+        val intent = launcherClass?.let {
+            Intent(context, Class.forName(it)).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-        } ?: context.packageManager.getLaunchIntentForPackage(context.packageName)*/
-
-        val intent =
-            Intent(context, UpdateActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK //or Intent.FLAG_ACTIVITY_SINGLE_TOP
                 action = NOTIFICATION_ACTION
             }
+        } ?: Intent(context, UpdateActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK //or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            action = NOTIFICATION_ACTION
+        }
 
         Timber.d("Intent to launch ${intent.toString()} action: ${intent.action}")
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, NOTIFICATION_REQ_CODE, intent as Intent, FLAG_UPDATE_CURRENT)

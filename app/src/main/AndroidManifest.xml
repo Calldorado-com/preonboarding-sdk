@@ -3,13 +3,18 @@
     package="com.calldorado.app" >
 
     <application
+        android:name="androidx.multidex.MultiDexApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name="androidx.multidex.MultiDexApplication"
         android:theme="@style/Theme.PreOnboarding" >
+        <activity
+            android:name=".AppUpdateActivity"
+            android:exported="false"
+            android:label="@string/title_activity_app_update"
+            android:theme="@style/Theme.PreOnboarding.NoActionBar" />
         <activity
             android:name=".Second"
             android:exported="false"
@@ -27,13 +32,24 @@
             </intent-filter>
         </activity>
 
+        <!-- For testing popping notification -->
+        <!--
         <meta-data
             android:name="com.calldorado.preonboarding.test_time_minutes"
             android:value="1" />
+        -->
+
+        <!-- Custom small icon on notification -->
+        <!--
+            <meta-data
+            android:name="com.calldorado.preonboarding.notification_icon_res_name"
+            android:value="baseline_thumb_up_black_24" />
+        -->
+
         <!-- Use this to launch a custom activity -->
         <!--<meta-data
             android:name="com.calldorado.preonboarding.launch_class"
-            android:value="com.calldorado.preonboarding.Second" />-->
+            android:value="com.calldorado.app.AppUpdateActivity" />-->
     </application>
 
 </manifest>
