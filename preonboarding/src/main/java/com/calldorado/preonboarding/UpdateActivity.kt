@@ -53,7 +53,7 @@ class UpdateActivity : AppCompatActivity() {
         when (requestCode) {
             PreonboardingApi.UPDATE_REQUEST_CODE -> {
                 when (resultCode){
-                    //The user has accepted the update. For immediate updates, you might not receive
+                    // The user has accepted the update. For immediate updates, you might not receive
                     // this callback because the update should already be finished by the time control
                     // is given back to your app.
                     RESULT_OK -> {
@@ -64,16 +64,16 @@ class UpdateActivity : AppCompatActivity() {
 
                     //The user has denied or canceled the update.
                     RESULT_CANCELED -> {
-                        //TODO reschedule notification as spec'ed
+                        finish()
                     }
 
                     //Some other error prevented either the user from providing consent or the update from proceeding.
                     RESULT_IN_APP_UPDATE_FAILED -> {
-                        //TODO reschedule notification as spec'ed
+                        finish()
                     }
 
                     else -> {
-                        //TODO reschedule notification as spec'ed
+                        finish()
                     }
                 }
             }
