@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="preonb_notification_header">Nueva actualización disponible.</string>
-    <string name="preonb_notification_body">Actualiza esta aplicación para disfrutar de la última versión mejorada y de nuevas funciones fantásticas.</string>
+    <string name="preonb_notification_header">Na voljo je nova posodobitev.</string>
+    <string name="preonb_notification_body">Posodobite to aplikacijo za uporabo najnovejše in najboljše različice ter izjemnih novih funkcij.</string>
 </resources>
