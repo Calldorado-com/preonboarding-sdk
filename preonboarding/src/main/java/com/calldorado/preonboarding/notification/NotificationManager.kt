@@ -1,8 +1,10 @@
 package com.calldorado.preonboarding.notification
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
@@ -96,6 +98,7 @@ class NotificationManager private constructor(val context: Context) {
         }
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag") //Just to make 'Missing PendingIntent mutability flag' on below API 23 silent!
     private fun contentIntent(): PendingIntent{
         val launcherClass = Utils.getMetadataLaunchClass(context)
         val intent = launcherClass?.let {
@@ -109,7 +112,11 @@ class NotificationManager private constructor(val context: Context) {
         }
 
         Timber.d("Intent to launch ${intent.toString()} action: ${intent.action}")
-        val pendingIntent: PendingIntent = PendingIntent.getActivity(context, NOTIFICATION_REQ_CODE, intent as Intent, FLAG_UPDATE_CURRENT)
+        val pendingIntent: PendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PendingIntent.getActivity(context, NOTIFICATION_REQ_CODE, intent as Intent, FLAG_IMMUTABLE or FLAG_UPDATE_CURRENT)
+        } else {
+            PendingIntent.getActivity(context, NOTIFICATION_REQ_CODE, intent as Intent, FLAG_UPDATE_CURRENT)
+        }
         return pendingIntent
     }
 

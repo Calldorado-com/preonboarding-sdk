@@ -4,4 +4,5 @@
     <string name="preonb_title_activity_update" translatable="false">UpdateActivity</string>
     <string name="preonb_notification_header">New update available.</string>
     <string name="preonb_notification_body">Update this app to enjoy the latest and best version, and fantastic new features.</string>
+    <string name="activity_update_exit" translatable="false">Exit</string>
 </resources>

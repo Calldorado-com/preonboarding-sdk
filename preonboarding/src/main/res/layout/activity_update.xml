@@ -36,7 +36,7 @@
         android:layout_height="58dp"
         android:padding="5dp"
         android:layout_gravity="bottom"
-        android:text="exit" />
+        android:text="@string/activity_update_exit" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
