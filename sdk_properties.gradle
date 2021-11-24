@@ -4,5 +4,5 @@
 
 ext {
     //Remove -SNAPSHOT to publish to release
-    ext.preonboarding_version = "0.1-SNAPSHOT"
+    ext.preonboarding_version = "0.1"
 }
