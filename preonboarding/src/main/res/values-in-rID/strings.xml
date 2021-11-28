@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preonb_notification_header">Pemutakhiran baru tersedia.</string>
+    <string name="preonb_notification_body">Mutakhirkan aplikasi ini untuk menikmati versi terbaru dan terbaik, serta fitur-fitur baru yang fantastis.</string>
+</resources>

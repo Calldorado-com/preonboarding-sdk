@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.calldorado.preonboarding">
+
+    <application>
+        <activity
+            android:name=".UpdateActivity"
+            android:exported="false"
+            android:label="@string/preonb_title_activity_update"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.PreOnboarding.NoActionBar" />
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge"> <!-- Set to 'remove' when running tests. Back to merge when building-->
+
+            <meta-data
+                android:name="com.calldorado.preonboarding.startup.NotificationManagerInitializer"
+                android:value="androidx.startup" />
+        </provider>
+    </application>
+
+</manifest>

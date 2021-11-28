@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preonb_notification_header">Neues Update verfügbar.</string>
+    <string name="preonb_notification_body">Aktualisieren Sie diese App, um die neueste und beste Version sowie fantastische neue Funktionen zu genießen.</string>
+</resources>

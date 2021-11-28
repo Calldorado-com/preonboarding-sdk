@@ -1,0 +1,32 @@
+plugins {
+    id "com.gradle.enterprise" version "3.7.1"
+}
+apply from: 'sdk_properties.gradle'
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven {
+            credentials {
+                username = (System.getenv('mavenSnapshotUser') != null) ? System.getenv('mavenSnapshotUser') : mavenSnapshotUser
+                password = (System.getenv('mavenSnapshotPassword') != null) ? System.getenv('mavenSnapshotPassword') : mavenSnapshotPassword
+            }
+            url 'https://maven.calldorado.com/nexus/content/repositories/snapshots/'
+        }
+        google()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        mavenCentral()
+    }
+
+    include ':preonboarding'
+    gradleEnterprise {
+        buildScan {
+            termsOfServiceUrl = "https://gradle.com/terms-of-service"
+            termsOfServiceAgree = "yes"
+            value "Version number", preonboarding_version
+        }
+    }
+}
+rootProject.name = "Pre Onboarding"
+include ':app'
